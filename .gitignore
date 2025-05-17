@@ -1,0 +1,16 @@
+# .gitignore
+# Фронтенд
+my-app/node_modules/
+my-app/build/
+my-app/.env
+my-app/dist/
+
+# Бэкенд
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/products.db
+
+# Другое
+.DS_Store
+*.log
