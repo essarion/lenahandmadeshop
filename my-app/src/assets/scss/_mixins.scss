@@ -7,3 +7,18 @@
     align-items: center;
     // padding-inline: ;
 }
+
+@mixin cardproduct {
+    display: flex;
+
+    background-color: #FFF5EE;
+    box-shadow: 12px 10px 10px 1px #9b8d8d;
+    max-width: 30rem;
+
+    .textcontent {
+        display: flex;
+        flex-direction: column;
+        padding: 1em;
+        justify-content: center;
+    }
+}
