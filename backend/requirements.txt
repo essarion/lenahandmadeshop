@@ -1,0 +1,5 @@
+django
+djangorestframework
+python-telegram-bot
+python-dotenv
+django-cors-headers
