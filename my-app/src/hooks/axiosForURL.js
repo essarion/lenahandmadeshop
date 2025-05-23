@@ -14,16 +14,16 @@ const axiosRequest = axios.create({
 
 // Перехватчик запросов для добавления токена (для будущей реализации лк и сеансов). Доделать обработчик ошибки
 // В случае ошибки 401 редирект на вход и/или повторный запрос JWT
-// axiosRequest.interceptors.request.use(
-//     (config)=>{
-//         const token = localStorage.getItem('token')
-//         if (token){
-//             config.headers.Authorization = `Bearer ${token}`
-//         }
-//         return config
-//     },
-//     (error)=> Promise.reject(error)
-// )
+axiosRequest.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
+        return config
+    },
+    (error) => Promise.reject(error)
+)
 
 
 // Перехватчик для ответов сервера
