@@ -14,4 +14,5 @@ class ServiceSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['name', 'email', 'items']
+        fields = ['name', 'email', 'items', 'user']
+        read_only_fields = ['user']
