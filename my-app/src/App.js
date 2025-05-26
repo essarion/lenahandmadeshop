@@ -3,15 +3,17 @@ import Home from "./assets/pages/Home";
 import Login from "./assets/pages/Login";
 import OrderForm from "./assets/pages/OrderForm";
 import ProtectedRoute from "./assets/components/ProtectedRoute";
+import NotFound from "./assets/pages/NotFound";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <ProtectedRoute>
+      <Route element={<ProtectedRoute />}>
         <Route path="/order" element={<OrderForm />} />
-      </ProtectedRoute>
+      </Route>
+      <Route path="*" element={<NotFound />} />
 
 
     </Routes>

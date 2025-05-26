@@ -1,3 +1,36 @@
 @import './_fonts';
 @import './_variables';
 @import './_mixins';
+
+
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10rem;
+
+    @media(max-width: 570px) {
+        padding: 2rem 1rem;
+    }
+
+    .not-found-page__buttom-home {
+        @include buttons;
+        background-color: #d88ad2ce;
+        font-size: 1.5rem;
+        border-radius: 5px;
+        color: aliceblue;
+
+        @media (max-width: 760px) {
+            font-size: 1rem
+        }
+    }
+
+    .not-found-page__text {
+        font-size: 3rem;
+
+        @media (max-width: 760px) {
+            font-size: 1.5rem
+        }
+    }
+}
