@@ -2,4 +2,4 @@
 @use './assets/scss/variables';
 @use './assets/scss/mixins';
 @use './assets/scss/main';
-@use './assets/scss/fonts';
+@import './assets/scss/fonts';

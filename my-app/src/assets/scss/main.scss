@@ -4,24 +4,27 @@
 
 
 .not-found-page {
+    font-family: "GreatVibes", sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10rem;
+    min-height: 80vh;
+
 
     @media(max-width: 570px) {
         padding: 2rem 1rem;
     }
 
-    .not-found-page__buttom-home {
+    .not-found-page__button-home {
         @include buttons;
         background-color: #d88ad2ce;
         font-size: 1.5rem;
         border-radius: 5px;
         color: aliceblue;
 
-        @media (max-width: 760px) {
+        @media (max-width: 570px) {
             font-size: 1rem
         }
     }
@@ -29,8 +32,73 @@
     .not-found-page__text {
         font-size: 3rem;
 
-        @media (max-width: 760px) {
+        @media (max-width: 570px) {
             font-size: 1.5rem
         }
     }
+}
+
+.navbar {
+    font-family: "GreatVibes", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    padding: 5px 15px;
+    max-height: 40px;
+    background-color: $background-color;
+
+    @media(max-width:600px) {
+        max-height: none;
+    }
+
+
+    .navbar__content-direction {
+        display: flex;
+        align-items: center;
+
+        @media(max-width: 600px) {
+            flex-wrap: wrap;
+        }
+
+
+        .navbar__content-direction__logo {
+            max-width: 100%;
+            height: auto;
+
+            @media(max-width: 600px) {
+                display: none;
+            }
+        }
+
+        .navbar__content-direction__links {
+            text-decoration: none;
+            margin-inline: 10px;
+            color: $primary-color;
+            white-space: nowrap;
+
+            &:hover {
+                opacity: 0.5;
+            }
+
+        }
+    }
+
+    .navbar__lc-direction {
+        display: flex;
+        align-items: center;
+
+        .navbar__lc-direction__links {
+            text-decoration: none;
+            margin-inline: 10px;
+            color: $primary-color;
+            white-space: nowrap;
+
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+    }
+
+
+
 }

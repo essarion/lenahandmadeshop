@@ -1,10 +1,8 @@
 @mixin buttons {
     user-select: none;
-    scroll-behavior: smooth;
     display: inline-flex;
     white-space: nowrap;
     text-decoration: none;
-    // height: ;
     align-items: center;
     padding-inline: 2rem;
 }

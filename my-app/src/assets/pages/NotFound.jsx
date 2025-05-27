@@ -7,8 +7,8 @@ function NotFound() {
     return (
         <div className={classNames('not-found-page')}>
             <h1 className={classNames('not-found-page__text')}>Страница, которую Вы ищете, не существует</h1>
-            <Link to='/' className={classNames('not-found-page__buttom-home')}>
-                Вернуться на главную страницу
+            <Link to='/' className={classNames('not-found-page__button-home')}>
+                На главную
             </Link>
 
         </div>
