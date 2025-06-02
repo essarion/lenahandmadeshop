@@ -19,17 +19,17 @@ function Navbar() {
                 <Link to='/'
                     className={classNames('navbar__content-direction__links')}
                 >Главная</Link>
-                <Link to='/Candles'
+                <Link to='/candles'
                     className={classNames('navbar__content-direction__links')}
                 >Свечи</Link>
-                <Link to='/PlasterProducts'
+                <Link to='/plasterProducts'
                     className={classNames('navbar__content-direction__links')}
                 >Декор</Link>
-                <Link to='/Articles' className={classNames('navbar__content-direction__links')}
+                <Link to='/articles' className={classNames('navbar__content-direction__links')}
                 >Полезные статьи</Link>
             </div>
             <div className={classNames('navbar__lc-direction')}>
-                <Link to='/Login' className={classNames('navbar__lc-direction__links')}>Войти</Link>
+                <Link to='/register' className={classNames('navbar__lc-direction__links')}>Регистрация</Link>
             </div>
 
         </div>
