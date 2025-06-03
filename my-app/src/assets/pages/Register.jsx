@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form"
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
@@ -23,6 +23,7 @@ function Register() {
     const navigate = useNavigate()
     const { login } = useAuth()
 
+
     const [serverError, setServerError] = useState(null);
     const [registration, setRegistration] = useState(false);
 
@@ -31,12 +32,12 @@ function Register() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('/api/register/', { username: data.username, email: data.email, password: data.password })
+            const response = await axios.post('http://localhost:8000/api/register/', { username: data.username, email: data.email, password: data.password })
             setServerError(null);
             setRegistration(true);
 
             await login({ username: data.username, password: data.password });
-            navigate('/')
+            setTimeout(() => navigate('/'), 2000)
 
 
         }
@@ -94,6 +95,8 @@ function Register() {
                     {...register('confirmPassword')}
                 />
                 {errors.confirmPassword && <p className={classNames('registration-form__form__error')}>{errors.confirmPassword.message}</p>}
+
+                <Link to='/login'>Уже есть аккаунт? Войти</Link>
 
                 <button type="submit" disabled={!isValid} className={classNames('registration-form__form__button')}>Регистрация</button>
             </form>
