@@ -1,18 +1,25 @@
 from rest_framework import serializers
-from .models import SiteInfo, Service, Order
+from .models import Service, Category, SiteInfo, Order
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['name', 'slug']
+
+class ServiceSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(slug_field='slug', queryset=Category.objects.all())
+    image = serializers.ImageField(required=False, allow_null=True)
+
+    class Meta:
+        model = Service
+        fields = ['id', 'name', 'description', 'price', 'image', 'slug', 'category', 'created_at']
 
 class SiteInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = SiteInfo
         fields = ['title', 'description', 'header']
 
-class ServiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Service
-        fields = ['id', 'name', 'price', 'description']
-
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['name', 'email', 'items', 'user']
-        read_only_fields = ['user']
+        fields = ['id', 'user', 'name', 'email', 'items', 'created_at']

@@ -3,14 +3,13 @@ import Navbar from "../components/Navbar";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form"
 import classNames from "classnames";
-import { useNavigate, Link, useLocation, replace } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from "axios";
 
 const loginSchema = yup.object({
-    username: yup.string().required("Введите логин"),
-    password: yup.string().required('Ввелите логин')
+    username: yup.string().required('Введите логин'),
+    password: yup.string().required('Введите пароль')
 })
 
 function Login() {
@@ -19,17 +18,17 @@ function Login() {
     const location = useLocation();
     const { login } = useAuth();
 
-    const [serverError, setServetError] = useState(null);
+    const [serverError, setServerError] = useState(null);
 
     const from = location.state?.from?.pathname || "/";
 
     const onSubmit = async (data) => {
         try {
             await login({ username: data.username, password: data.password });
-            setServetError(null);
+            setServerError(null);
             navigate(from, { replace: true });
         } catch (error) {
-            setServetError(error.response?.data?.error || 'Ошибка входа');
+            setServerError(error.response?.data?.error || 'Ошибка входа');
         }
 
     };
@@ -39,15 +38,15 @@ function Login() {
         <div className={classNames('login-form')}>
             <Navbar />
             <h1 className={classNames('login-form__heading')}>Войти</h1>
-            {serverError && <p>{serverError}</p>}
+            {serverError && <p className={classNames('login-form__server-error')}>{serverError}</p>}
             <form className={classNames('login-form__form')} onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="username">Введите логин</label>
                 <input
                     type="text"
                     id="username"
                     placeholder="Введите login"
-                    autoComplete="userbane"
-                    {...register('usermane')}
+                    autoComplete="username"
+                    {...register('username')}
                 />
                 {errors.username && <p className={classNames('login-form__form__error')}>{errors.username.message}</p>}
 
@@ -67,7 +66,7 @@ function Login() {
 
             </form>
             <div className={classNames('login-form__link-contain')}>
-                <Link to='/register' className={classNames('login-form__link-contain__link')}>Нет аккаунта? Зарегестрироваться</Link>
+                <Link to='/register' className={classNames('login-form__link-contain__link')}>Нет аккаунта? Зарегистрироваться</Link>
             </div>
 
         </div >

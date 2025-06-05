@@ -19,8 +19,11 @@ class SiteInfoView(APIView):
         return Response(serializer.data)
 
 class ServiceListView(APIView):
-    def get(self, request):
-        services = Service.objects.all()
+    def get(self, request, category_slug=None):
+        if category_slug:
+            services = Service.objects.filter(category__slug=category_slug)
+        else:
+            services = Service.objects.all()
         serializer = ServiceSerializer(services, many=True)
         return Response(serializer.data)
 
