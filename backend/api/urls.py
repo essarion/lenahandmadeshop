@@ -1,12 +1,43 @@
 from django.urls import path
-from .views import SiteInfoView, ServiceListView, OrderCreateView
+from django.urls import path
+from .views import (
+    SiteInfoView,
+    ServiceListView,
+    OrderCreateView,
+    CategoryDetailView,
+    ServiceDetailView,
+    WelcomeSectionView,
+    ProductShowcaseView,
+    CatalogIntroView,
+    AdvantageListView,
+    DeliveryInfoView,
+    AboutCompanyView,
+    ContactInfoView,
+    HomePageView,
+)
+
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('site-info/', SiteInfoView.as_view(), name='site-info'),
-    path('services/', ServiceListView.as_view(), name='services'),
-    path('services/<str:category_slug>/', ServiceListView.as_view(), name='services-by-category'),
-    path('order/', OrderCreateView.as_view(), name='order'),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("site-info/", SiteInfoView.as_view(), name="site-info"),
+    path("welcome/", WelcomeSectionView.as_view(), name="welcome-section"),
+    path("product-showcase/", ProductShowcaseView.as_view(), name="product-showcase"),
+    path("catalog-intro/", CatalogIntroView.as_view(), name="catalog-intro"),
+    path("advantages/", AdvantageListView.as_view(), name="advantages"),
+    path("delivery-info/", DeliveryInfoView.as_view(), name="delivery-info"),
+    path("about-company/", AboutCompanyView.as_view(), name="about-company"),
+    path("contact-info/", ContactInfoView.as_view(), name="contact-info"),
+    path("services/", ServiceListView.as_view(), name="services"),
+    path(
+        "services/<str:category_slug>/",
+        ServiceListView.as_view(),
+        name="services-by-category",
+    ),
+    path("home/", HomePageView.as_view(), name="home"),
+    path("category/<str:slug>/", CategoryDetailView.as_view(), name="category-detail"),
+    path("service/<str:slug>/", ServiceDetailView.as_view(), name="service-detail"),
+    path("order/", OrderCreateView.as_view(), name="order"),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
