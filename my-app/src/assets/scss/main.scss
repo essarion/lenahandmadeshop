@@ -260,6 +260,10 @@
         height: 60vh;
         z-index: 0;
 
+        @media(max-width: 500px) {
+            height: auto;
+        }
+
         p {
             font-size: 20px;
         }
@@ -295,6 +299,10 @@
         .main-page__greeting-form__heading {
             font-size: 3rem;
             letter-spacing: 3px;
+
+            @media(max-width: 500px) {
+                font-family: 1.5rem;
+            }
         }
 
     }
@@ -407,6 +415,7 @@
             align-items: center;
             justify-content: center;
             gap: 30px;
+            flex-wrap: wrap;
 
             .main-page__advantages__elements-field__element {
                 display: flex;
@@ -416,6 +425,11 @@
                 gap: 15px;
                 height: 250px;
                 width: 400px;
+
+                @media(max-width: 500px) {
+                    width: 250px;
+                    height: auto;
+                }
 
                 img {
                     max-height: 50%;
@@ -471,6 +485,223 @@
         }
 
         .main-page__contacts__text-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.service-card {
+    display: flex;
+    flex-direction: row;
+    height: 50vh;
+    width: 50vw;
+    border: 1px solid black;
+    border-radius: 30px;
+
+    img {
+        width: 50%;
+        height: auto;
+    }
+
+    .service-card__text-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .service-card__text-content__button {
+            @include buttons
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    .modal__modal-space {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 50vw;
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 1.5rem;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+        .modal__modal-space__loading-form {
+            font-size: 20px;
+        }
+
+        .modal__modal-space__content-product {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+            .modal__modal-space__content-product__img-content {
+                height: 100%;
+                width: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+
+
+            .modal__modal-space__content-product__text-content {
+                display: flex;
+                flex-direction: column;
+                padding: 5px;
+            }
+        }
+
+        .modal__modal-space__button {
+            @include buttons;
+            width: 300px;
+        }
+    }
+}
+
+.category-page {
+    font-family: "GreatVibes", sans-serif;
+    font-size: $font-size-base;
+
+    .category-page__catalog {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px 5px;
+        place-items: center;
+
+        @media(max-width:1100px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media(max-width:850px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media(max-width:550px) {
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        .category-page__catalog__card {
+            height: 300px;
+            max-width: 250px;
+            border: 1px solid black;
+            border-radius: 30px;
+            overflow: hidden;
+
+
+            img {
+                height: 70%;
+                object-fit: cover;
+            }
+
+            .category-page__catalog__card__text-element {
+                height: 30%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    .category-page__advantages {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+
+        .category-page__advantages__elements-field {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+
+            .category-page__advantages__elements-field__element {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                gap: 15px;
+                height: 250px;
+                width: 400px;
+
+                @media(max-width: 500px) {
+                    width: 250px;
+                    height: auto;
+                }
+
+                img {
+                    max-height: 50%;
+                    max-width: 100%;
+                    height: auto;
+                    width: auto;
+                }
+
+                h3,
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    .category-page__delivery {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-inline: 10px;
+    }
+
+    .category-page__contacts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+
+        .category-page__contacts__haeding {
+            border-bottom: 4px ridge black;
+        }
+
+        .category-page__contacts__text-info {
             display: flex;
             flex-direction: column;
             align-items: center;

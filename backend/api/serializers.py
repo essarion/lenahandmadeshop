@@ -15,12 +15,6 @@ from .models import (
 )
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ["name", "slug"]
-
-
 class ServiceSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         slug_field="slug", queryset=Category.objects.all()
@@ -39,6 +33,14 @@ class ServiceSerializer(serializers.ModelSerializer):
             "category",
             "created_at",
         ]
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    services = ServiceSerializer(many=True, read_only=True)  # Используем related_name
+
+    class Meta:
+        model = Category
+        fields = ["name", "slug", "services"]
 
 
 class SiteInfoSerializer(serializers.ModelSerializer):

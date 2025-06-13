@@ -2,12 +2,17 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import classNames from "classnames";
 import useHomePage from "../../hooks/useHomePage"
+import { useContext } from "react";
+import { ModalContext } from "../components/Modal/ModalProvider";
+import ProductModal from "../components/ProductModal";
 
 
 function Home() {
     const { data, loading, error } = useHomePage();
+    const { modalOpen } = useContext(ModalContext);
 
     console.log(data)
+
 
     if (loading) return <p>Загрузка, подождите немного</p>
     if (error || !data) return <p>{error.message || 'Нет данных'}</p>
@@ -42,11 +47,13 @@ function Home() {
             </section>
 
             <section className={classNames('main-page__catalog')}>
-                {/* Доделать id, image, name, price, slug, category, created_at  */}
-
                 {data.services?.map((service) => {
                     return (<div key={service.id}
-                        className={classNames('main-page__catalog__card')}>
+                        className={classNames('main-page__catalog__card')}
+
+                        onClick={() => modalOpen(<ProductModal slug={service.slug} />)}
+                    >
+
                         <img src={`http://localhost:8000${service.image}`} alt={service.name} />
                         <div className={classNames('main-page__catalog__card__text-element')}>
                             <p>{service.name}</p>

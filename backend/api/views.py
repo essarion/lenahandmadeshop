@@ -27,6 +27,11 @@ from .serializers import (
     AboutCompanySerializer,
     ContactInfoSerializer,
 )
+
+from .models import Category
+from .serializers import CategorySerializer
+
+
 import telegram
 import os
 from dotenv import load_dotenv

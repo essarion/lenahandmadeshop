@@ -8,11 +8,11 @@ const useFetchForCard = (slug) => {
     const [loadingCard, setLoading] = useState(true);
     const [errorCard, setError] = useState(null);
 
-    useEffect((slug) => {
+    useEffect(() => {
         if (!slug) return;
         const fetchForCard = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/services/${slug}`);
+                const response = await axios.get(`http://localhost:8000/api/service/${slug}/`);
                 setDataCard(response.data)
             } catch (error) {
                 setError(error)
@@ -20,7 +20,7 @@ const useFetchForCard = (slug) => {
                 setLoading(false)
             }
         }
-        fetchForCard()
+        if (slug) { fetchForCard(); }
     }, [slug])
 
 

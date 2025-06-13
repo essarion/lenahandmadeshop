@@ -26,10 +26,10 @@ function Navbar() {
                 <Link to='/'
                     className={classNames('navbar__content-direction__links')}
                 >Главная</Link>
-                <Link to='/candles'
+                <Link to='/category/candles'
                     className={classNames('navbar__content-direction__links')}
                 >Свечи</Link>
-                <Link to='/plasterProducts'
+                <Link to='/category/plasterProducts'
                     className={classNames('navbar__content-direction__links')}
                 >Декор</Link>
                 <Link to='/articles' className={classNames('navbar__content-direction__links')}
