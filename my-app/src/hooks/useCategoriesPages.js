@@ -8,7 +8,6 @@ const useCategoriesPage = (category) => {
 
     useEffect(() => {
         if (!category) return;
-        console.log("Fetching category with slug:", category);
         const takeData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/api/category/${category}/`);

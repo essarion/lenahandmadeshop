@@ -17,7 +17,7 @@ function App() {
       <Route path="/category/:slug" element={<Candles />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/plasterproducts" element={<PlasterProducts />} />
+      <Route path="/category/:slug" element={<PlasterProducts />} />
       <Route path="/articles" element={<Articles />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/order" element={<OrderForm />} />

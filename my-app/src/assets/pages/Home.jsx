@@ -11,8 +11,6 @@ function Home() {
     const { data, loading, error } = useHomePage();
     const { modalOpen } = useContext(ModalContext);
 
-    console.log(data)
-
 
     if (loading) return <p>Загрузка, подождите немного</p>
     if (error || !data) return <p>{error.message || 'Нет данных'}</p>

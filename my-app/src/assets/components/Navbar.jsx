@@ -29,7 +29,7 @@ function Navbar() {
                 <Link to='/category/candles'
                     className={classNames('navbar__content-direction__links')}
                 >Свечи</Link>
-                <Link to='/category/plasterProducts'
+                <Link to='/category/plaster-products'
                     className={classNames('navbar__content-direction__links')}
                 >Декор</Link>
                 <Link to='/articles' className={classNames('navbar__content-direction__links')}

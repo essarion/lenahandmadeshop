@@ -14,8 +14,7 @@ function Candles() {
     const { dataCategory, loading, error } = useCategoriesPage(slug);
     const { modalOpen } = useContext(ModalContext);
 
-    console.log("slug:", slug);
-    console.log("dataCategory:", dataCategory);
+
 
 
     if (loading) return <p>Загрузка...</p>;
@@ -24,7 +23,10 @@ function Candles() {
     return (
         <div className={classNames('category-page')}>
             <Navbar />
-            <h1>Декоративные и Контейнерные свечи</h1>
+            <div className={classNames('category-page__heading')}>
+                <h1>Декоративные и Контейнерные свечи</h1>
+
+            </div>
             <section className={classNames('category-page__catalog')}>
                 {dataCategory.services?.map((service) => {
                     return (<div key={service.id}
