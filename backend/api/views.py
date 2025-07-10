@@ -146,16 +146,24 @@ class HomePageView(APIView):
                 "site_info": SiteInfoSerializer(site_info).data if site_info else {},
                 "welcome": WelcomeSectionSerializer(welcome).data if welcome else {},
                 "showcase": (
-                    ProductShowcaseSerializer(showcase).data if showcase else {}
+                    ProductShowcaseSerializer(
+                        showcase, context={"request": request}
+                    ).data
+                    if showcase
+                    else {}
                 ),
                 "catalog_intro": (
                     CatalogIntroSerializer(catalog_intro).data if catalog_intro else {}
                 ),
-                "advantages": AdvantageSerializer(advantages, many=True).data,
+                "advantages": AdvantageSerializer(
+                    advantages, many=True, context={"request": request}
+                ).data,
                 "delivery": DeliveryInfoSerializer(delivery).data if delivery else {},
                 "about": AboutCompanySerializer(about).data if about else {},
                 "contacts": ContactInfoSerializer(contacts).data if contacts else {},
-                "services": ServiceSerializer(services, many=True).data,
+                "services": ServiceSerializer(
+                    services, many=True, context={"request": request}
+                ).data,
             },
             status=status.HTTP_200_OK,
         )
@@ -179,8 +187,12 @@ class CategoryDetailView(APIView):
         return Response(
             {
                 "category": CategorySerializer(category).data,
-                "services": ServiceSerializer(services, many=True).data,
-                "advantages": AdvantageSerializer(advantages, many=True).data,
+                "services": ServiceSerializer(
+                    services, many=True, context={"request": request}
+                ).data,
+                "advantages": AdvantageSerializer(
+                    advantages, many=True, context={"request": request}
+                ).data,
                 "delivery": DeliveryInfoSerializer(delivery).data if delivery else {},
                 "contacts": ContactInfoSerializer(contacts).data if contacts else {},
             }
@@ -196,7 +208,7 @@ class ServiceDetailView(APIView):
                 {"error": "Service not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = ServiceSerializer(service)
+        serializer = ServiceSerializer(service, context={"request": request})
         return Response(serializer.data)
 
 

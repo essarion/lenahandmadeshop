@@ -13,6 +13,8 @@ from .models import (
     DeliveryInfo,
     AboutCompany,
     ContactInfo,
+    Cart,
+    CartItem,
 )
 from decimal import Decimal
 
@@ -21,7 +23,8 @@ class ServiceSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         slug_field="slug", queryset=Category.objects.all()
     )
-    image = serializers.ImageField(required=False, allow_null=True)
+    webp_image = serializers.SerializerMethodField()
+    avif_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -31,14 +34,36 @@ class ServiceSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "image",
+            "webp_image",
+            "avif_image",
             "slug",
             "category",
             "created_at",
         ]
 
+    def get_webp_image(self, obj):
+        if obj.webp_image:
+            request = self.context.get("request")
+            return (
+                request.build_absolute_uri(obj.webp_image.url)
+                if request
+                else obj.webp_image.url
+            )
+        return None
+
+    def get_avif_image(self, obj):
+        if obj.avif_image:
+            request = self.context.get("request")
+            return (
+                request.build_absolute_uri(obj.avif_image.url)
+                if request
+                else obj.avif_image.url
+            )
+        return None
+
 
 class CategorySerializer(serializers.ModelSerializer):
-    services = ServiceSerializer(many=True, read_only=True)  # Используем related_name
+    services = ServiceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
@@ -57,7 +82,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ["id", "user", "name", "email", "items", "total_price", "created_at"]
 
 
-# Для страниц дополнение:
 class WelcomeSectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = WelcomeSection
@@ -65,9 +89,39 @@ class WelcomeSectionSerializer(serializers.ModelSerializer):
 
 
 class ProductShowcaseItemSerializer(serializers.ModelSerializer):
+    webp_background_image = serializers.SerializerMethodField()
+    avif_background_image = serializers.SerializerMethodField()
+
     class Meta:
         model = ProductShowcaseItem
-        fields = ["background_image", "text_top", "page_name", "text_bottom"]
+        fields = [
+            "background_image",
+            "webp_background_image",
+            "avif_background_image",
+            "text_top",
+            "page_name",
+            "text_bottom",
+        ]
+
+    def get_webp_background_image(self, obj):
+        if obj.webp_background_image:
+            request = self.context.get("request")
+            return (
+                request.build_absolute_uri(obj.webp_background_image.url)
+                if request
+                else obj.webp_background_image.url
+            )
+        return None
+
+    def get_avif_background_image(self, obj):
+        if obj.avif_background_image:
+            request = self.context.get("request")
+            return (
+                request.build_absolute_uri(obj.avif_background_image.url)
+                if request
+                else obj.avif_background_image.url
+            )
+        return None
 
 
 class ProductShowcaseSerializer(serializers.ModelSerializer):
@@ -84,16 +138,33 @@ class CatalogIntroSerializer(serializers.ModelSerializer):
         fields = ["title", "text"]
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "username", "email"]
-
-
 class AdvantageSerializer(serializers.ModelSerializer):
+    webp_icon = serializers.SerializerMethodField()
+    avif_icon = serializers.SerializerMethodField()
+
     class Meta:
         model = Advantage
-        fields = ["title", "description", "icon"]
+        fields = ["title", "description", "icon", "webp_icon", "avif_icon"]
+
+    def get_webp_icon(self, obj):
+        if obj.webp_icon:
+            request = self.context.get("request")
+            return (
+                request.build_absolute_uri(obj.webp_icon.url)
+                if request
+                else obj.webp_icon.url
+            )
+        return None
+
+    def get_avif_icon(self, obj):
+        if obj.avif_icon:
+            request = self.context.get("request")
+            return (
+                request.build_absolute_uri(obj.avif_icon.url)
+                if request
+                else obj.avif_icon.url
+            )
+        return None
 
 
 class DeliveryInfoSerializer(serializers.ModelSerializer):
@@ -114,7 +185,10 @@ class ContactInfoSerializer(serializers.ModelSerializer):
         fields = ["title", "phone", "email", "address"]
 
 
-from .models import Cart, CartItem
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "email"]
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -137,7 +211,7 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ["id", "items", "total_price"]
 
     def get_total_price(self, cart):
-        total = Decimal("0.00")  # обязательно с отступом
+        total = Decimal("0.00")
         for item in cart.items.select_related("service").all():
             price = item.service.price
             if isinstance(price, str):

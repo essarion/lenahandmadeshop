@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import (
     Category,
     Service,
@@ -27,6 +28,38 @@ class ServiceAdmin(admin.ModelAdmin):
     list_filter = ["category"]
     search_fields = ["name", "description"]
     prepopulated_fields = {"slug": ("name",)}
+
+    readonly_fields = ["webp_image", "avif_image", "image_preview"]
+    fields = [
+        "category",
+        "name",
+        "price",
+        "description",
+        "slug",
+        "image",
+        "webp_image",
+        "avif_image",
+        "image_preview",
+        "created_at",
+    ]
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                """
+                <picture>
+                    <source srcset="{}" type="image/avif">
+                    <source srcset="{}" type="image/webp">
+                    <img src="{}" style="max-height: 200px;" />
+                </picture>
+                """,
+                obj.avif_image.url if obj.avif_image else "",
+                obj.webp_image.url if obj.webp_image else "",
+                obj.image.url,
+            )
+        return "Нет изображения"
+
+    image_preview.short_description = "Превью"
 
 
 @admin.register(SiteInfo)

@@ -10,10 +10,13 @@ import decrementItemThunk from "../store/api/thunks/decrementItemThunk";
 import OrderForm from "./OrderForm";
 import classNames from "classnames";
 import removeItemThunk from "../store/api/thunks/removeItemThunk";
-
+import Footer from "../components/Footer";
+import useHomePage from "../../hooks/useHomePage"
 
 
 const CartPage = () => {
+
+    const { data } = useHomePage();
 
     const dispatch = useDispatch();
 
@@ -58,6 +61,8 @@ const CartPage = () => {
                 className={classNames('cart-page__order-form-headin')}
             >Форма оформления заказа</h2>
             <OrderForm />
+
+            <Footer data={data} />
         </section>
     )
 }

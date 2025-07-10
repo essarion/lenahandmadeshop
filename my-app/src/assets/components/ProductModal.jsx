@@ -3,15 +3,29 @@ import useFetchForCard from "../../hooks/useFetchForCard";
 import React from "react";
 import { useDispatch } from "react-redux";
 import addItemThunk from "../store/api/thunks/addItemThunk"
+import { useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 
 const ProductModal = ({ slug }) => {
 
     const { dataCard, loadingCard, errorCard } = useFetchForCard(slug);
     const dispatch = useDispatch();
-    const addItemInCart = (service_id, quantity) => dispatch(addItemThunk({ service_id, quantity }));
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    console.log("dataCard", dataCard);
+    const isAuthenticated = !!user;
+
+
+    const addItemInCart = (service_id, quantity) => {
+        if (!isAuthenticated) {
+            navigate('/login', { state: { from: location.pathname } });
+        } else {
+            dispatch(addItemThunk({ service_id, quantity }));
+        }
+    };
+
 
 
     if (loadingCard) return <p className={classNames('modal__modal-space__loading-form')}>Загрузка товара...</p>;

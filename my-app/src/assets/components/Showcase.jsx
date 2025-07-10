@@ -9,7 +9,16 @@ const Showcase = ({ dataCategory, classPrefix }) => {
             <div className={classNames(`${classPrefix}__showcase__product-directiry`)}>
                 {dataCategory.showcase?.items?.map((item, index) => (
                     <div key={index}
-                        style={{ backgroundImage: `linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 80%), url(http://localhost:8000${item.background_image})` }}
+                        style={{
+                            backgroundImage: `linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 80%), 
+    image-set(
+      url('${item.avif_background_image}') type('image/avif'),
+      url('${item.webp_background_image}') type('image/webp'),
+      url('${item.background_image}') type('image/jpeg')
+    )`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                        }}
                         className={classNames(`${classPrefix}__showcase__product-directiry__product-element`)}
                     >
 
