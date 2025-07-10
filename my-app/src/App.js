@@ -8,6 +8,7 @@ import NotFound from "./assets/pages/NotFound";
 import Candles from "./assets/pages/Candles";
 import PlasterProducts from "./assets/pages/PlasterProducts"
 import Articles from "./assets/pages/Articles";
+import CartPage from "./assets/pages/CartPage";
 
 function App() {
   return (
@@ -21,8 +22,10 @@ function App() {
       <Route path="/articles" element={<Articles />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/order" element={<OrderForm />} />
+        <Route path="/cart" element={<CartPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
+
 
 
     </Routes>

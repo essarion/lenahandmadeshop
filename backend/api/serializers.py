@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import (
     Service,
     Category,
@@ -13,6 +14,7 @@ from .models import (
     AboutCompany,
     ContactInfo,
 )
+from decimal import Decimal
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -52,7 +54,7 @@ class SiteInfoSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ["id", "user", "name", "email", "items", "created_at"]
+        fields = ["id", "user", "name", "email", "items", "total_price", "created_at"]
 
 
 # Для страниц дополнение:
@@ -82,6 +84,12 @@ class CatalogIntroSerializer(serializers.ModelSerializer):
         fields = ["title", "text"]
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "email"]
+
+
 class AdvantageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advantage
@@ -104,3 +112,35 @@ class ContactInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactInfo
         fields = ["title", "phone", "email", "address"]
+
+
+from .models import Cart, CartItem
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    service = ServiceSerializer(read_only=True)
+    service_id = serializers.PrimaryKeyRelatedField(
+        queryset=Service.objects.all(), source="service", write_only=True
+    )
+
+    class Meta:
+        model = CartItem
+        fields = ["id", "service", "service_id", "quantity"]
+
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True)
+    total_price = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Cart
+        fields = ["id", "items", "total_price"]
+
+    def get_total_price(self, cart):
+        total = Decimal("0.00")  # обязательно с отступом
+        for item in cart.items.select_related("service").all():
+            price = item.service.price
+            if isinstance(price, str):
+                price = Decimal(price)
+            total += price * item.quantity
+        return total

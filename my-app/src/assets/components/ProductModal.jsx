@@ -1,11 +1,15 @@
 import classNames from "classnames";
 import useFetchForCard from "../../hooks/useFetchForCard";
 import React from "react";
+import { useDispatch } from "react-redux";
+import addItemThunk from "../store/api/thunks/addItemThunk"
 
 
 const ProductModal = ({ slug }) => {
 
     const { dataCard, loadingCard, errorCard } = useFetchForCard(slug);
+    const dispatch = useDispatch();
+    const addItemInCart = (service_id, quantity) => dispatch(addItemThunk({ service_id, quantity }));
 
     console.log("dataCard", dataCard);
 
@@ -26,6 +30,7 @@ const ProductModal = ({ slug }) => {
                 <h2>{dataCard.name}</h2>
                 <p>Информация о товаре: {dataCard.description}</p>
                 <p>Стоимость: {dataCard.price}р.</p>
+                <button onClick={() => (addItemInCart(dataCard.id, 1))}>Добавить в корзину</button>
             </div>
         </div>
 

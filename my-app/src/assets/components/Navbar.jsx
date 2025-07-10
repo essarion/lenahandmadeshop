@@ -7,8 +7,10 @@ function Navbar() {
     const { user, logout } = useAuth();
     const isAuthenticated = !!user;
     const location = useLocation();
+    const navigate = useNavigate();
     const handleLogout = () => {
         logout();
+        navigate('/');
     };
 
     return (
@@ -34,18 +36,32 @@ function Navbar() {
                 >Декор</Link>
                 <Link to='/articles' className={classNames('navbar__content-direction__links')}
                 >Полезные статьи</Link>
+
             </div>
             <div className={classNames('navbar__lc-direction')}>
                 {isAuthenticated ? (
-                    <button
-                        onClick={handleLogout}
-                        className={classNames("navbar__lc-direction__links")}
-                    >
-                        Выйти
-                    </button>
+                    <>
+                        <span className={classNames('navbar__lc-direction__user')}>
+                            Здравствуйте, {user?.username}
+                        </span>
+                        <Link to='/cart' className={classNames('navbar__lc-direction__links')}> Корзина
+                        </Link>
+                        <button
+                            onClick={handleLogout}
+                            className={classNames("navbar__lc-direction__links")}
+                        >
+                            Выйти
+                        </button>
+                    </>
                 ) : (
-                    <><Link to='/register' className={classNames('navbar__lc-direction__links')}>Регистрация</Link><Link to='/login' className={classNames('navbar__lc-direction__links')}>Вход</Link></>
-
+                    <>
+                        <Link to='/register' className={classNames('navbar__lc-direction__links')}>
+                            Регистрация
+                        </Link>
+                        <Link to='/login' className={classNames('navbar__lc-direction__links')}>
+                            Вход
+                        </Link>
+                    </>
                 )}
 
             </div>

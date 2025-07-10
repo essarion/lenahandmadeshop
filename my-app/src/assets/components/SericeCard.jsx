@@ -3,7 +3,9 @@ import classNames from "classnames";
 import { createPortal } from "react-dom";
 
 
+
 const ServiceCard = ({ modalClose, children }) => {
+
 
     const ref = useRef()
     useEffect(() => {
@@ -31,6 +33,7 @@ const ServiceCard = ({ modalClose, children }) => {
                 {children}
                 <button onClick={modalClose} ref={ref}
                     className={classNames('modal__modal-space__button')}>Закрыть</button>
+
             </div>
         </div>,
         document.getElementById('modal-root')

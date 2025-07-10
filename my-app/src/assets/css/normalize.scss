@@ -1,0 +1,77 @@
+/* Нормализация блочной модели */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Убираем отступы слева у ul и ol с классами */
+:where(ul, ol):where([class]) {
+    padding-left: 0;
+}
+
+/* Убираем внешние отступы у body, blockquote, figure */
+body,
+:where(blockquote, figure):where([class]) {
+    margin: 0;
+}
+
+/* Убираем вертикальные отступы у заголовков, списков и параграфов */
+:where(h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol,
+    dl):where([class]) {
+    margin-block: 0;
+}
+
+/* Убираем отступ слева у dd */
+:where(dd[class]) {
+    margin-left: 0;
+}
+
+/* Убираем стандартные маркеры у ul с классами */
+:where(ul[class]) {
+    list-style: none;
+}
+
+/* Работа с изображениями */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* Наследование шрифта */
+input,
+textarea,
+select,
+button {
+    font: inherit;
+}
+
+/* Нормализация html */
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+/* Нормализация body */
+body {
+    min-height: 100%;
+    line-height: 1.5;
+}
+
+/* Отключение анимаций при prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
