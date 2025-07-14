@@ -24,6 +24,7 @@ const Advantages = ({ dataCategory, classPrefix }) => {
                                 src={advantage.icon}
                                 alt={advantage.title}
                                 loading="lazy"
+                                decoding="async"
                                 width="122"
                                 height="125"
                             />

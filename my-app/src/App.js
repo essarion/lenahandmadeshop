@@ -1,34 +1,38 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./assets/pages/Home";
-import Register from "./assets/pages/Register";
-import Login from "./assets/pages/Login";
-import OrderForm from "./assets/pages/OrderForm";
-import ProtectedRoute from "./assets/components/ProtectedRoute";
-import NotFound from "./assets/pages/NotFound";
-import Candles from "./assets/pages/Candles";
-import PlasterProducts from "./assets/pages/PlasterProducts"
-import Articles from "./assets/pages/Articles";
-import CartPage from "./assets/pages/CartPage";
+import React, { Suspense } from "react";
+
+
+const Home = React.lazy(() => import("./assets/pages/Home"));
+const Register = React.lazy(() => import("./assets/pages/Register"));
+const Login = React.lazy(() => import("./assets/pages/Login"));
+const ProtectedRoute = React.lazy(() => import("./assets/components/ProtectedRoute"));
+const NotFound = React.lazy(() => import("./assets/pages/NotFound"));
+const Candles = React.lazy(() => import("./assets/pages/Candles"));
+const PlasterProducts = React.lazy(() => import("./assets/pages/PlasterProducts"));
+const Articles = React.lazy(() => import("./assets/pages/Articles"));
+const CartPage = React.lazy(() => import("./assets/pages/CartPage"));
+
 
 function App() {
   return (
-
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/category/:slug" element={<Candles />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/category/:slug" element={<PlasterProducts />} />
-      <Route path="/articles" element={<Articles />} />
-      <Route element={<ProtectedRoute />}>
-        <Route path="/order" element={<OrderForm />} />
-        <Route path="/cart" element={<CartPage />} />
-      </Route>
-      <Route path="*" element={<NotFound />} />
-
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/category/:slug" element={<Candles />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/category/:slug" element={<PlasterProducts />} />
+        <Route path="/articles" element={<Articles />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/cart" element={<CartPage />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
 
 
-    </Routes>
+
+      </Routes>
+    </Suspense>
+
 
   );
 }

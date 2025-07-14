@@ -21,6 +21,7 @@ const ProductModal = ({ slug }) => {
     const addItemInCart = (service_id, quantity) => {
         if (!isAuthenticated) {
             navigate('/login', { state: { from: location.pathname } });
+            
         } else {
             dispatch(addItemThunk({ service_id, quantity }));
         }

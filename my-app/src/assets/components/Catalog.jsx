@@ -24,6 +24,7 @@ const Catalog = ({ dataCategory, classPrefix }) => {
                                 src={service.image}
                                 alt={service.name}
                                 loading="lazy"
+                                decoding="async"
                                 width="250"
                                 height="210"
 
