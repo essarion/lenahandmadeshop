@@ -1,5 +1,4 @@
 from django.urls import path
-from django.urls import path
 from .views import (
     SiteInfoView,
     ServiceListView,
@@ -20,9 +19,8 @@ from .views import (
     RegisterUserView,
     CurrentUserView,
 )
-
-
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path("site-info/", SiteInfoView.as_view(), name="site-info"),
@@ -55,4 +53,6 @@ urlpatterns = [
     path("cart/submit/", SubmitCartOrderView.as_view(), name="submit-cart-order"),
     path("register/", RegisterUserView.as_view(), name="register"),
     path("auth/user/", CurrentUserView.as_view(), name="current-user"),
+    path("schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
 ]

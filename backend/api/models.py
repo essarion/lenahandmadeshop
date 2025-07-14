@@ -1,6 +1,33 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .image_mixins import AutoImageFormatsMixin
+from celery import shared_task
+
+
+@shared_task
+def generate_image_formats(model_name, instance_id, image_field_name):
+    model = globals()[model_name]
+    instance = model.objects.get(id=instance_id)
+    instance.generate_format_versions(image_field_name)
+    instance.save(
+        update_fields=[f"webp_{image_field_name}", f"avif_{image_field_name}"]
+    )
+
+
+class AutoImageFormatsMixin:
+    image_field_name = "image"  # Default, override in models if needed
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        image_field = getattr(self, self.image_field_name)
+        if image_field and image_field != getattr(self, "_original_image", None):
+            generate_image_formats.delay(
+                self.__class__.__name__, self.id, self.image_field_name
+            )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_image = getattr(self, self.image_field_name, None)
 
 
 class SiteInfo(models.Model):
@@ -40,6 +67,7 @@ class ProductShowcase(models.Model):
 
 
 class ProductShowcaseItem(AutoImageFormatsMixin, models.Model):
+    image_field_name = "background_image"  # Specify image field
     showcase = models.ForeignKey(
         ProductShowcase, on_delete=models.CASCADE, related_name="items"
     )
@@ -56,16 +84,6 @@ class ProductShowcaseItem(AutoImageFormatsMixin, models.Model):
         help_text="Название страницы/категории (используется для ссылки)",
     )
     text_bottom = models.TextField()
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.background_image and (
-            not self.webp_background_image or not self.avif_background_image
-        ):
-            self.generate_format_versions("background_image")
-            super().save(
-                update_fields=["webp_background_image", "avif_background_image"]
-            )
 
     def __str__(self):
         return self.page_name
@@ -88,6 +106,7 @@ class CatalogIntro(models.Model):
 
 
 class Advantage(AutoImageFormatsMixin, models.Model):
+    image_field_name = "icon"  # Specify image field
     title = models.CharField(max_length=100)
     description = models.TextField()
     icon = models.ImageField(upload_to="advantages/")
@@ -97,12 +116,6 @@ class Advantage(AutoImageFormatsMixin, models.Model):
     avif_icon = models.ImageField(
         upload_to="advantages/avif/", blank=True, null=True, editable=False
     )
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.icon and (not self.webp_icon or not self.avif_icon):
-            self.generate_format_versions("icon")
-            super().save(update_fields=["webp_icon", "avif_icon"])
 
     def __str__(self):
         return self.title
@@ -163,6 +176,7 @@ class Category(models.Model):
 
 
 class Service(AutoImageFormatsMixin, models.Model):
+    image_field_name = "image"  # Specify image field
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="services"
     )
@@ -179,16 +193,14 @@ class Service(AutoImageFormatsMixin, models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.image and (not self.webp_image or not self.avif_image):
-            self.generate_format_versions("image")
-            super().save(update_fields=["webp_image", "avif_image"])
-
     def __str__(self):
         return self.name
 
     class Meta:
+        indexes = [
+            models.Index(fields=["slug"]),
+            models.Index(fields=["created_at"]),
+        ]
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
 

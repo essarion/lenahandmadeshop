@@ -19,7 +19,23 @@ from .models import (
 from decimal import Decimal
 
 
-class ServiceSerializer(serializers.ModelSerializer):
+class ImageFormatSerializer(serializers.Serializer):
+    def get_webp_image(self, obj, field_name):
+        image = getattr(obj, f"webp_{field_name}", None)
+        if image:
+            request = self.context.get("request")
+            return request.build_absolute_uri(image.url) if request else image.url
+        return None
+
+    def get_avif_image(self, obj, field_name):
+        image = getattr(obj, f"avif_{field_name}", None)
+        if image:
+            request = self.context.get("request")
+            return request.build_absolute_uri(image.url) if request else image.url
+        return None
+
+
+class ServiceSerializer(ImageFormatSerializer, serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         slug_field="slug", queryset=Category.objects.all()
     )
@@ -42,24 +58,10 @@ class ServiceSerializer(serializers.ModelSerializer):
         ]
 
     def get_webp_image(self, obj):
-        if obj.webp_image:
-            request = self.context.get("request")
-            return (
-                request.build_absolute_uri(obj.webp_image.url)
-                if request
-                else obj.webp_image.url
-            )
-        return None
+        return super().get_webp_image(obj, "image")
 
     def get_avif_image(self, obj):
-        if obj.avif_image:
-            request = self.context.get("request")
-            return (
-                request.build_absolute_uri(obj.avif_image.url)
-                if request
-                else obj.avif_image.url
-            )
-        return None
+        return super().get_avif_image(obj, "image")
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -88,7 +90,7 @@ class WelcomeSectionSerializer(serializers.ModelSerializer):
         fields = ["title", "text"]
 
 
-class ProductShowcaseItemSerializer(serializers.ModelSerializer):
+class ProductShowcaseItemSerializer(ImageFormatSerializer, serializers.ModelSerializer):
     webp_background_image = serializers.SerializerMethodField()
     avif_background_image = serializers.SerializerMethodField()
 
@@ -104,24 +106,10 @@ class ProductShowcaseItemSerializer(serializers.ModelSerializer):
         ]
 
     def get_webp_background_image(self, obj):
-        if obj.webp_background_image:
-            request = self.context.get("request")
-            return (
-                request.build_absolute_uri(obj.webp_background_image.url)
-                if request
-                else obj.webp_background_image.url
-            )
-        return None
+        return super().get_webp_image(obj, "background_image")
 
     def get_avif_background_image(self, obj):
-        if obj.avif_background_image:
-            request = self.context.get("request")
-            return (
-                request.build_absolute_uri(obj.avif_background_image.url)
-                if request
-                else obj.avif_background_image.url
-            )
-        return None
+        return super().get_avif_image(obj, "background_image")
 
 
 class ProductShowcaseSerializer(serializers.ModelSerializer):
@@ -138,7 +126,7 @@ class CatalogIntroSerializer(serializers.ModelSerializer):
         fields = ["title", "text"]
 
 
-class AdvantageSerializer(serializers.ModelSerializer):
+class AdvantageSerializer(ImageFormatSerializer, serializers.ModelSerializer):
     webp_icon = serializers.SerializerMethodField()
     avif_icon = serializers.SerializerMethodField()
 
@@ -147,24 +135,10 @@ class AdvantageSerializer(serializers.ModelSerializer):
         fields = ["title", "description", "icon", "webp_icon", "avif_icon"]
 
     def get_webp_icon(self, obj):
-        if obj.webp_icon:
-            request = self.context.get("request")
-            return (
-                request.build_absolute_uri(obj.webp_icon.url)
-                if request
-                else obj.webp_icon.url
-            )
-        return None
+        return super().get_webp_image(obj, "icon")
 
     def get_avif_icon(self, obj):
-        if obj.avif_icon:
-            request = self.context.get("request")
-            return (
-                request.build_absolute_uri(obj.avif_icon.url)
-                if request
-                else obj.avif_icon.url
-            )
-        return None
+        return super().get_avif_image(obj, "icon")
 
 
 class DeliveryInfoSerializer(serializers.ModelSerializer):
@@ -211,10 +185,6 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ["id", "items", "total_price"]
 
     def get_total_price(self, cart):
-        total = Decimal("0.00")
-        for item in cart.items.select_related("service").all():
-            price = item.service.price
-            if isinstance(price, str):
-                price = Decimal(price)
-            total += price * item.quantity
+        items = cart.items.select_related("service").all()
+        total = sum(Decimal(str(item.service.price)) * item.quantity for item in items)
         return total
