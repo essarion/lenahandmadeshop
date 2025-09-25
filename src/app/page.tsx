@@ -1,5 +1,6 @@
 import { HomePageContent } from "./HomePageContent";
 
+
 export const metadata = {
   title: "RedBud Candles — свечи и декор для уюта",
   description:

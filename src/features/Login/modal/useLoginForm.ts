@@ -9,12 +9,15 @@ import { loginSchema, LoginSchemaType } from "../modal/validation";
 import { showErrorToast, showSuccessToast } from "@/shared/lib/toast";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { SerializedError } from "@reduxjs/toolkit";
-
+import { useAppDispatch } from "@/shared/lib/useAppDispatch";
+import { baseApi } from "@/shared/api/baseQuery";
+import { tokenStorage } from "@/shared/lib/tokenStorage";
 
 export const useLoginForm = () => {
     const [loginUser, { isLoading }] = useTakeUserLoginMutation();
     const [serverError, setServerError] = useState<string | null>(null);
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const form = useForm<LoginSchemaType>({
         resolver: yupResolver(loginSchema),
@@ -23,9 +26,17 @@ export const useLoginForm = () => {
 
     const onSubmit: SubmitHandler<LoginSchemaType> = async (data) => {
         try {
-            await loginUser(data).unwrap();
+            const result = await loginUser(data).unwrap();
+
+            tokenStorage.setAccessToken(result.access);
+            tokenStorage.setRefreshToken(result.refresh);
+
+            dispatch(baseApi.util.invalidateTags(['User']));
+            // dispatch(baseApi.endpoints.getCurrentUser.initiate(undefined, { forceRefetch: true }));
+
             showSuccessToast("Успешный вход!");
             setServerError(null);
+
             router.push("/");
         } catch (error: unknown) {
             const err = error as FetchBaseQueryError | SerializedError;
@@ -43,6 +54,6 @@ export const useLoginForm = () => {
         ...form,
         onSubmit,
         isLoading,
-        serverError
+        serverError,
     };
 };

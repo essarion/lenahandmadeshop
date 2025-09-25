@@ -1,5 +1,7 @@
+"use client";
+
 import { tokenStorage } from "@/shared/lib/tokenStorage";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 export const useLogout = (): () => void => {

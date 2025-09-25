@@ -3,6 +3,13 @@ import { CartItemType } from "@/shared/api/Cart/types/cartApi.types";
 import { PictureSetElement } from "@/shared/ui/PictureSetElement/PictureSetElement";
 import styles from "./cartItem.module.scss";
 
+const BASE_URL = "https://red-bud.ru";
+
+const getFullImageUrl = (path: string | null | undefined): string | undefined => {
+    if (!path) return undefined;
+    return path.startsWith("http") ? path : `${BASE_URL}${path}`;
+};
+
 interface CartItemProps {
     item: CartItemType;
     removeItem: (itemId: number) => void;
@@ -17,11 +24,11 @@ const CartItemElement: React.FC<CartItemProps> = ({
     removeItem,
 }) => {
     const handleIncrement = React.useCallback(() => {
-        incrementItem(item.id, item.quantity + 1);
+        incrementItem(item.id, item.quantity);
     }, [incrementItem, item.id, item.quantity]);
 
     const handleDecrement = React.useCallback(() => {
-        decrementItem(item.id, item.quantity - 1);
+        decrementItem(item.id, item.quantity);
     }, [decrementItem, item.id, item.quantity]);
 
     const handleRemove = React.useCallback(() => {
@@ -33,9 +40,9 @@ const CartItemElement: React.FC<CartItemProps> = ({
             <div className={styles.imageBlock}>
                 <PictureSetElement
                     alt={item.service.name}
-                    imageSrc={item.service.image ?? undefined}
-                    avif={item.service.avif_image ?? undefined}
-                    webp={item.service.webp_image ?? undefined}
+                    imageSrc={getFullImageUrl(item.service.image ?? undefined)}
+                    avif={getFullImageUrl(item.service.avif_image ?? undefined)}
+                    webp={getFullImageUrl(item.service.webp_image ?? undefined)}
                     decoding="async"
                     loading="lazy"
                     width={250}

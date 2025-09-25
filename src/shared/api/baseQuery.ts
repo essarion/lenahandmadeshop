@@ -6,6 +6,7 @@ import { authBaseQuery } from "../lib/authBaseQuery";
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: authBaseQuery,
+    tagTypes: ['User', 'Cart'],
     endpoints: (build) => ({
 
     })

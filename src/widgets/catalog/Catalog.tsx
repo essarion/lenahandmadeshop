@@ -24,6 +24,7 @@ export const Catalog: React.FC<CatalogProps> = ({ services }) => {
             if (!product) return;
 
             const handleAddToCart = withAuth(async (productId: number, quantity: number) => {
+                console.log("onAddToCart вызван с", productId, quantity);
                 try {
                     await addCartItem({ service_id: productId, quantity }).unwrap();
                     console.log("Товар добавлен в корзину");
@@ -31,6 +32,8 @@ export const Catalog: React.FC<CatalogProps> = ({ services }) => {
                     console.error("Ошибка при добавлении товара:", error);
                 }
             });
+
+
 
             handleModalOpen(
                 <ProductModal

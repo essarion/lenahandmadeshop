@@ -16,9 +16,7 @@ const CartListElement: React.FC<CartListProps> = ({
     incrementItem,
     decrementItem,
 }) => {
-    if (items.length === 0) {
-        return <p className={styles.emptyMessage}>Корзина пуста</p>;
-    }
+
 
     return (
         <section className={styles.cartList}>

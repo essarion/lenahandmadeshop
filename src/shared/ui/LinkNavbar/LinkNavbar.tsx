@@ -6,19 +6,24 @@ interface LinkNavbarProps {
     href: string;
     prefetch?: boolean;
     className?: string;
+    ariaLabel?: string;
 
 }
 
 export const LinkNavbar: React.FC<LinkNavbarProps> = ({ children,
     href,
     prefetch = false,
-    className }) => {
+    className,
+    ariaLabel
+
+}) => {
 
     return (
         <NextLink
             href={href}
             prefetch={prefetch}
             className={className}
+            aria-label={ariaLabel}
         >
             <span>{children}</span>
 

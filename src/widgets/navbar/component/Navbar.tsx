@@ -12,20 +12,28 @@ export const Navbar = ({ }) => {
     const { user, isLoading, isAuthenticated } = useNavbar();
 
     return (
-        <section
+        <header
             className={styles.navbar}
+            role="banner"
+            aria-label="Главное меню сайта"
         >
             <div
                 className={styles.contentDirection}
             >
-                <Image
-                    src={logo}
-                    width={40}
-                    height={40}
-                    alt="logo"
-                    className={styles.logo}
-                    priority={true}
-                />
+                <LinkNavbar
+                    href="/"
+                    aria-label="Перейти на главную страницу"
+                >
+                    <Image
+                        src={logo}
+                        width={40}
+                        height={40}
+                        alt="logo"
+                        className={styles.logo}
+                        priority={true}
+                    />
+                </LinkNavbar>
+
 
                 <LinkNavbar
                     href="/"
@@ -51,6 +59,8 @@ export const Navbar = ({ }) => {
 
             <div
                 className={styles.lcDirection}
+                aria-live="polite"
+                aria-atomic="true"
             >
                 {isLoading ? (
                     <>Загрузка...</>
@@ -59,18 +69,21 @@ export const Navbar = ({ }) => {
                         <>
                             <span
                                 className={styles.lcDirectionUser}
+                                arya-label={`Здравствуйте, ${user?.username}`}
                             >
                                 Здравствуйте, {user?.username}
                             </span>
                             <LinkNavbar
                                 href="/cart"
                                 className={styles.lcDirectionLinks}
+                                ariaLabel="Перейти в корзину"
                             >
                                 Корзина
                             </LinkNavbar>
 
                             <LogoutButton
                                 className={styles.lcDirectionLinks}
+                                arya-label="Выйти из аккаунта"
                             />
                         </>
                     )
@@ -79,12 +92,14 @@ export const Navbar = ({ }) => {
                                 <LinkNavbar
                                     href="/register"
                                     className={styles.lcDirectionLinks}
+                                    ariaLabel="Перейти к регистрации"
                                 >
                                     Регистрация
                                 </LinkNavbar>
                                 <LinkNavbar
                                     href="/login"
                                     className={styles.lcDirectionLinks}
+                                    ariaLabel="Перейти к форме входа"
                                 >
                                     Вход
                                 </LinkNavbar>
@@ -92,6 +107,6 @@ export const Navbar = ({ }) => {
                         )
                 }
             </div>
-        </section>
+        </header>
     )
 };

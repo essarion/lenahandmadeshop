@@ -9,6 +9,8 @@ import { LazySection } from "@/shared/ui/LazySection/LazySection";
 export const HomePageContent: React.FC = () => {
     const { data } = useGetHomePageQuery();
 
+    console.log(data);
+
     if (!data) return null
 
     return (

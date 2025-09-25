@@ -11,7 +11,7 @@ interface LazySectionProps {
 export const LazySection: FC<LazySectionProps> = ({ load, fallback = null, props }) => {
     const { ref, inView } = useInView({
         triggerOnce: true,
-        rootMargin: '100px 0px',
+        rootMargin: '200px 0px',
         threshold: 0,
     });
 
