@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /login
+Disallow: /register
+Disallow: /cart
+
+Sitemap: https://red-bud.ru/sitemap.xml

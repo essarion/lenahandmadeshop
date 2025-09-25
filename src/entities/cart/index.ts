@@ -1,0 +1,1 @@
+export { CartList } from "@/entities/cart/cartList/CartList";

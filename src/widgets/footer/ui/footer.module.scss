@@ -1,0 +1,60 @@
+@use '../../../shared/styles/variables' as *;
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-family: var(--font-primary), sans-serif;
+    background-color: $background-color;
+    flex-wrap: wrap;
+}
+
+.socialLinksBlock {
+    display: flex;
+    flex-direction: column;
+    margin-inline: 10px;
+    align-items: center;
+    justify-content: center;
+
+    p {
+        margin-top: 2px;
+        margin-bottom: 3px;
+    }
+}
+
+.imagesLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 5px;
+    margin-bottom: 5px;
+
+}
+
+.middleTextOptionalBlock {
+    display: flex;
+    flex-direction: column;
+    margin-inline: 10px;
+    align-items: center;
+
+
+    p {
+        margin: 5px 0px;
+    }
+}
+
+.contactsBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-inline: 10px;
+    justify-content: center;
+
+    padding: 0px;
+
+
+    p {
+        margin: 0px;
+    }
+}

@@ -1,0 +1,14 @@
+@mixin mobile {
+    @media(max-width:600px) {
+        @content
+    }
+}
+
+@mixin buttons {
+    user-select: none;
+    display: inline-flex;
+    white-space: nowrap;
+    text-decoration: none;
+    align-items: center;
+    padding-inline: 2rem;
+}

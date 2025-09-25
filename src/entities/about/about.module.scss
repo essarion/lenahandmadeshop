@@ -1,0 +1,13 @@
+.aboutBlock {
+    margin: 60px auto 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 10px;
+    max-width: 90vw;
+    border: 1px solid black;
+    border-radius: 40px;
+    background-color: #ebebeb;
+    box-shadow: 3px 5px 14px 12px #595757;
+}

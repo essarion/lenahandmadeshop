@@ -1,0 +1,17 @@
+.contactBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.heading {
+    border-bottom: 4px ridge black;
+}
+
+.textInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

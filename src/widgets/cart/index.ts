@@ -1,0 +1,1 @@
+export { CartWidget } from "@/widgets/cart/component/CartWidget";

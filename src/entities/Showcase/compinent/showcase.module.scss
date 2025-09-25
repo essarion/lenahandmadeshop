@@ -1,0 +1,16 @@
+.showcase {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.productDirectiry {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 60px;
+    justify-content: center;
+}

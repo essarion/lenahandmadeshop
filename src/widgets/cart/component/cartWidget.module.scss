@@ -1,0 +1,24 @@
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as *;
+
+.cart-widget {
+    display: flex;
+    flex-direction: column;
+}
+
+.total-price-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    font-size: 18px;
+
+    h2 {
+        margin: 20px 0px 10px 20px;
+    }
+}
+
+.cartButton {
+    @include buttons;
+    margin: 20px 40px;
+}

@@ -1,0 +1,66 @@
+@use '../../shared/styles/variables' as *;
+
+.navbar {
+    font-family: var(--font-primary), sans-serif;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    padding: 5px 15px;
+    max-height: 40px;
+    background-color: $background-color;
+    ;
+
+    @media(max-width:600px) {
+        max-height: none;
+    }
+}
+
+.lcDirection {
+    display: flex;
+    align-items: center;
+}
+
+.lcDirectionUser {
+    color: $primary-color;
+    margin-inline: 10px;
+}
+
+.lcDirectionLinks {
+    text-decoration: none;
+    margin-inline: 10px;
+    color: $primary-color;
+    white-space: nowrap;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+.contentDirection {
+    display: flex;
+    align-items: center;
+
+    @media(max-width: 600px) {
+        flex-wrap: wrap;
+    }
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+
+    @media(max-width: 600px) {
+        display: none;
+    }
+}
+
+.contentDirectionLinks {
+    text-decoration: none;
+    margin-inline: 10px;
+    color: $primary-color;
+    white-space: nowrap;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}

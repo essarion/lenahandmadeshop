@@ -1,0 +1,22 @@
+.element {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 5px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    width: 300px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 30px;
+    box-shadow: 3px 5px 14px 12px #595757;
+
+    p,
+    h3 {
+        margin: 0;
+        padding: 0;
+    }
+}

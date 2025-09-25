@@ -1,0 +1,1 @@
+export { CatalogIntro } from "@/entities/catalogIntro/CataloiIntro";
