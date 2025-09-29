@@ -1,7 +1,10 @@
+import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { HomePageContent } from "./HomePageContent";
+import { Preloader } from '@/shared/ui/Preloader/Preloader';
 
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "RedBud Candles — свечи и декор для уюта",
   description:
     "Красивые свечи и декор ручной работы из натуральных материалов. Доставка по всей России.",
@@ -16,8 +19,13 @@ export const metadata = {
   },
 };
 
-
+export const dynamic = 'force-dynamic';
 
 export default function MainPage() {
-  return <HomePageContent />;
+  return (
+    <Suspense fallback={<Preloader />}>
+      <HomePageContent />;
+
+    </Suspense>
+  );
 }

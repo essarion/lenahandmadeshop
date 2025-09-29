@@ -48,7 +48,6 @@ export const authBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQu
                         api,
                         extraOptions
                     );
-                    console.log("Refresh token response:", refreshResponse);
 
                     const data = refreshResponse.data as { access?: string; refresh?: string };
 

@@ -1,21 +1,28 @@
 import { useInView } from "react-intersection-observer";
 import dynamic from "next/dynamic";
-import { FC, ReactNode, useMemo } from "react";
+import { ReactNode, ComponentType, JSX } from "react";
 
-interface LazySectionProps {
-    load: () => Promise<{ default: FC<any> }>;
-    fallback?: ReactNode;
-    props?: any;
+interface LazySectionProps<T extends JSX.IntrinsicAttributes> {
+  load: () => Promise<{ default: ComponentType<T> }>;
+  fallback?: ReactNode;
+  props?: T;
 }
 
-export const LazySection: FC<LazySectionProps> = ({ load, fallback = null, props }) => {
-    const { ref, inView } = useInView({
-        triggerOnce: true,
-        rootMargin: '200px 0px',
-        threshold: 0,
-    });
+export function LazySection<T extends JSX.IntrinsicAttributes>({
+  load,
+  fallback = null,
+  props,
+}: LazySectionProps<T>) {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "200px 0px",
+    threshold: 0,
+  });
 
-    const DynamicComponent = useMemo(() => dynamic(load, { loading: () => fallback || null, ssr: false }), [load, fallback]);
+  const DynamicComponent = dynamic(load, {
+    loading: () => fallback || null,
+    ssr: false,
+  }) as ComponentType<T>;
 
-    return <div ref={ref}>{inView ? <DynamicComponent {...props} /> : fallback}</div>;
-};
+  return <div ref={ref}>{inView ? <DynamicComponent {...(props as T)} /> : fallback}</div>;
+}

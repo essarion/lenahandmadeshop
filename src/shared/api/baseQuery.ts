@@ -7,8 +7,6 @@ export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: authBaseQuery,
     tagTypes: ['User', 'Cart'],
-    endpoints: (build) => ({
-
-    })
+    endpoints: (_build) => ({})
 
 });

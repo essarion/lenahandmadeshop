@@ -31,7 +31,6 @@ export const cartApi = baseApi.injectEndpoints({
 
         incrementCartItem: build.mutation<CartType, UpdateCartItemRequestType>({
             query: ({ item_id, quantity }) => {
-                // const newQuantity = quantity + 1;
                 return {
                     url: `/cart/items/${item_id}/`,
                     method: 'PATCH',

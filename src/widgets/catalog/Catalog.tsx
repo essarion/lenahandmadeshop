@@ -9,9 +9,10 @@ import { ServiceItemType } from "@/shared/types";
 import { useAuthRedirect } from "@/shared/lib/useAuthRedirect";
 import styles from "@/widgets/catalog/catalog.module.scss";
 
-interface CatalogProps {
+export interface CatalogProps extends Record<string, unknown> {
     services: ServiceItemType[];
 }
+
 
 export const Catalog: React.FC<CatalogProps> = ({ services }) => {
     const { handleModalOpen, handleModalClose } = useModal();
@@ -24,7 +25,6 @@ export const Catalog: React.FC<CatalogProps> = ({ services }) => {
             if (!product) return;
 
             const handleAddToCart = withAuth(async (productId: number, quantity: number) => {
-                console.log("onAddToCart вызван с", productId, quantity);
                 try {
                     await addCartItem({ service_id: productId, quantity }).unwrap();
                     console.log("Товар добавлен в корзину");

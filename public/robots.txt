@@ -1,6 +1,9 @@
+# *
 User-agent: *
-Disallow: /login
-Disallow: /register
-Disallow: /cart
+Allow: /
 
+# Host
+Host: https://red-bud.ru
+
+# Sitemaps
 Sitemap: https://red-bud.ru/sitemap.xml

@@ -32,7 +32,6 @@ export const useLoginForm = () => {
             tokenStorage.setRefreshToken(result.refresh);
 
             dispatch(baseApi.util.invalidateTags(['User']));
-            // dispatch(baseApi.endpoints.getCurrentUser.initiate(undefined, { forceRefetch: true }));
 
             showSuccessToast("Успешный вход!");
             setServerError(null);

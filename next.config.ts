@@ -1,9 +1,6 @@
 import type { NextConfig } from 'next';
 import type { Configuration, RuleSetRule } from 'webpack';
-
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+import withBundleAnalyzer from '@next/bundle-analyzer';
 
 function isRegExpRule(rule: unknown): rule is RuleSetRule & { test: RegExp } {
   return typeof rule === 'object' && rule !== null && 'test' in rule && rule['test'] instanceof RegExp;
@@ -14,7 +11,6 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['red-bud.ru'],
   },
-  // swcMinify: true,
   experimental: {
     serverActions: {
       bodySizeLimit: '1mb',
@@ -25,6 +21,7 @@ const nextConfig: NextConfig = {
   webpack(config: Configuration, { dev }) {
     if (!Array.isArray(config.module?.rules)) return config;
 
+    // 🧼 Удаляем базовую обработку .svg
     config.module.rules = config.module.rules.filter(rule => {
       if (isRegExpRule(rule)) {
         return !rule.test.test('.svg');
@@ -32,17 +29,28 @@ const nextConfig: NextConfig = {
       return true;
     });
 
-    config.module.rules.push(
-      {
-        test: /\.svg$/i,
-        type: 'asset/resource',
-      },
-      {
-        test: /\.(avif|webp|jpe?g|png)$/i,
-        type: 'asset/resource',
-      }
-    );
+    // ✅ SVG как React-компонент при импорте с ?component
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      resourceQuery: /component/,
+      use: ['@svgr/webpack'],
+    });
 
+    // ✅ SVG как файл при обычном импорте
+    config.module.rules.push({
+      test: /\.svg$/i,
+      type: 'asset/resource',
+      resourceQuery: { not: [/component/] },
+    });
+
+    // ✅ Картинки
+    config.module.rules.push({
+      test: /\.(avif|webp|jpe?g|png)$/i,
+      type: 'asset/resource',
+    });
+
+    // ✅ Оптимизации только для production
     if (!dev) {
       config.resolve = {
         ...config.resolve,
@@ -85,4 +93,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})(nextConfig);

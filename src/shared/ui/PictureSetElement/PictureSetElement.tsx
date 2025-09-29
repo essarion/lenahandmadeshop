@@ -35,6 +35,7 @@ const PictureSetElementComponent: React.FC<PictureSetElementProps> = ({
                     quality={75}
                     priority={loading === "eager"}
                     sizes="100vw"
+                    unoptimized
                     style={{
                         width: "100%",
                         height: "100%",

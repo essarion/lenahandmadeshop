@@ -2,7 +2,7 @@ import { AdvantageItem } from "@/entities/advantageItem/AdvantageItem";
 import { AdvantageItemType } from "@/shared/types";
 import styles from "./advantages.module.scss";
 
-interface AdvantagesProps {
+export interface AdvantagesProps extends Record<string, unknown> {
     advantages: AdvantageItemType[];
 }
 

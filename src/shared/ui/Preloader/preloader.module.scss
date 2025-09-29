@@ -1,0 +1,19 @@
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: spin3d 4s linear infinite;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+@keyframes spin3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateY(360deg);
+  }
+}

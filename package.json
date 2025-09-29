@@ -29,16 +29,13 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@next/bundle-analyzer": "^15.5.3",
-    "@types/node": "^20",
-    "@types/react": "^19",
+    "@svgr/webpack": "^8.1.0",
     "@types/react-dom": "^19",
-    "@types/webpack": "^5.28.5",
     "cross-env": "^10.0.0",
     "eslint": "^9.36.0",
     "eslint-config-next": "15.5.2",
     "eslint-plugin-unused-imports": "^4.2.0",
     "sass": "^1.92.0",
-    "typescript": "^5",
     "webpack": "^5.101.3"
   }
 }

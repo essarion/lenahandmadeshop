@@ -1,6 +1,12 @@
+import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { CategoryPageContent } from "../component/CategoryPageContent";
+import { Preloader } from '@/shared/ui/Preloader/Preloader';
 
-export const metadata = {
+
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
     metadataBase: new URL("https://red-bud.ru"),
     title: {
         default: "RedBud Candles — свечи и декор",
@@ -17,9 +23,12 @@ export const metadata = {
 };
 
 
-export default function CategoryPage() {
 
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+    const { category } = await params;
     return (
-        <CategoryPageContent />
-    )
-};
+        <Suspense fallback={<Preloader />}>
+            <CategoryPageContent categorySlug={category} />
+        </Suspense>
+    );
+}

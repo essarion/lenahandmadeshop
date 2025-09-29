@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from "next/navigation";
+import React from 'react';
 import { useTakeCategoryPageApiQuery } from "../[category]/category.api";
 import dynamic from "next/dynamic";
 
@@ -12,10 +12,11 @@ const Contacts = dynamic(() =>
     import("@/entities/contacts/Contacts").then((mod) => ({ default: mod.Contacts }))
 );
 
-export const CategoryPageContent: React.FC = () => {
-    const params = useParams();
-    const categorySlug = params?.category as string;
+interface CategoryPageContentProps {
+    categorySlug: string;
+}
 
+export const CategoryPageContent: React.FC<CategoryPageContentProps> = ({ categorySlug }) => {
     const { data, isLoading, error } = useTakeCategoryPageApiQuery(categorySlug);
 
     if (isLoading) return <p>Загрузка...</p>;
@@ -27,8 +28,8 @@ export const CategoryPageContent: React.FC = () => {
                 <h1>{data.category.name}</h1>
             </div>
 
-            {data?.services && <Catalog services={data.services} />}
-            {data?.contacts && <Contacts {...data.contacts} />}
+            {data.services && <Catalog services={data.services} />}
+            {data.contacts && <Contacts {...data.contacts} />}
         </main>
     );
 };
